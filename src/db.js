@@ -209,22 +209,32 @@ export async function getActiveSession() {
  * @throws {ActiveSessionError}
  */
 export async function createSession({ workoutId, date, blockWeek, isDeload }) {
-  const active = await getActiveSession();
+  // Check and insert in ONE readwrite transaction so two quick taps cannot both pass the check.
+  const db = await openDB();
+  const tx = db.transaction('sessions', 'readwrite');
+  const store = tx.objectStore('sessions');
+  const active = (await promisify(store.getAll())).filter((s) => !s.finishedAt).sort(sessionSort)[0];
   if (active) throw new ActiveSessionError(active);
   const session = {
     id: newId('s'), workoutId, date, startedAt: new Date().toISOString(), finishedAt: null,
     blockWeek, isDeload: !!isDeload, note: '', source: 'app', skipped: [],
   };
-  await writeMany('sessions', [session]);
+  store.put(session);
+  await done(tx);
   return session;
 }
 
 /** @returns {Promise<Session>} */
 export async function updateSession(id, patch) {
-  const current = await getSession(id);
+  // Read-modify-write in one transaction so concurrent patches (skip, deload, finish) never undo each other.
+  const db = await openDB();
+  const tx = db.transaction('sessions', 'readwrite');
+  const store = tx.objectStore('sessions');
+  const current = await promisify(store.get(id));
   if (!current) throw new Error(`No session ${id}`);
   const next = { ...current, ...patch, id };
-  await writeMany('sessions', [next]);
+  store.put(next);
+  await done(tx);
   return next;
 }
 

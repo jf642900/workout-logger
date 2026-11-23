@@ -17,6 +17,7 @@ function isIOSSafari() {
 function showInstallHint() {
   try {
     if (localStorage.getItem(HINT_KEY)) return;
+    if (location.hash.startsWith('#/log')) return; // never clutter the Log screen
     const main = document.getElementById('main');
     if (!main) return;
     const banner = Banner({

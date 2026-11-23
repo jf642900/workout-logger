@@ -135,7 +135,7 @@ body.tabbar-hidden .tabbar { display: none; }
 .btn-ghost { background: none; color: var(--accent); }
 .btn-block { width: 100%; }
 .btn-large { min-height: 56px; font-size: 17px; border-radius: var(--radius); }
-.btn-small { min-height: 36px; padding: 0 var(--space-3); font-size: 14px; }
+.btn-small { min-height: var(--tap); padding: 0 var(--space-3); font-size: 14px; }
 .btn-icon {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: var(--tap); min-height: var(--tap); border: 0; border-radius: var(--radius-sm);

@@ -29,7 +29,8 @@ function weekRows(data) {
   const { settings, sessions, sets, exercises } = data;
   const have = new Map(weeklySummary({ sessions, sets, exercises }).map((r) => [r.week, r]));
   const current = blockWeek(todayISO(), settings.blockStartDate);
-  const last = Math.min(settings.blockWeeks, Math.max(current, ...have.keys(), 0));
+  // Empty rows run to the current week (capped at the block length); weeks with data always show, even past the block.
+  const last = Math.max(Math.min(current, settings.blockWeeks), ...have.keys(), 0);
   const rows = [];
   for (let w = 1; w <= last; w++) rows.push(have.get(w) || { week: w, empty: true });
   return rows;

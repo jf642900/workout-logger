@@ -2,7 +2,7 @@
 import { h, replace, screenHeader, toast, confirmSheet } from '../ui.js';
 import {
   getSettings, listWorkouts, listExercises, listSessions, getActiveSession, getSetsForSession,
-  createSession, finishSession, saveSettings, ActiveSessionError,
+  createSession, finishSession, deleteSession, saveSettings, ActiveSessionError,
 } from '../db.js';
 import {
   todayISO, blockWeek, isDeloadWeek, workoutIdForDate, formatShortDate, mondayOf, addDays, weekdayShort,
@@ -38,18 +38,37 @@ export async function render(container, params, ctx) {
   const activeOld = active && active.date < today ? active : null;
   const finished = sessions.filter((s) => s.finishedAt);
 
+  let starting = false; // a double tap must not start (or offer to resume) a second workout
   async function start(workoutId) {
+    if (starting) return;
+    starting = true;
     try {
       const s = await createSession({ workoutId, date: today, blockWeek: week, isDeload: deload });
       ctx.navigate('log/' + s.id);
     } catch (err) {
-      if (!(err instanceof ActiveSessionError)) throw err;
+      starting = false;
+      if (!(err instanceof ActiveSessionError)) { console.error(err); toast('Could not start the workout. Try again.'); return; }
       const w = wById.get(err.session.workoutId);
       const ok = await confirmSheet(
         `You already have an unfinished workout: ${w?.name ?? 'workout'} from ${formatShortDate(err.session.date)}. Resume it?`,
         { confirmLabel: 'Resume' });
       if (ok) ctx.navigate('log/' + err.session.id);
     }
+  }
+
+  // Finishing an old draft with nothing ticked would save an empty workout: offer to discard it instead.
+  async function finishOld(session) {
+    const sets = await getSetsForSession(session.id);
+    if (!sets.some((x) => x.done)) {
+      const discard = await confirmSheet('Nothing was ticked in this workout. Discard it?', { confirmLabel: 'Discard', danger: true });
+      if (!discard) return;
+      await deleteSession(session.id);
+      toast('Workout discarded');
+    } else {
+      await finishSession(session.id);
+      toast('Workout finished');
+    }
+    ctx.refresh();
   }
 
   // ----- banners -----
@@ -60,7 +79,7 @@ export async function render(container, params, ctx) {
       tone: 'warn', title: `Unfinished: ${w?.name ?? 'workout'} from ${formatShortDate(activeOld.date)}`,
       actions: [
         { label: 'Resume', primary: true, onClick: () => ctx.navigate('log/' + activeOld.id) },
-        { label: 'Finish now', onClick: async () => { await finishSession(activeOld.id); toast('Workout finished'); ctx.refresh(); } },
+        { label: 'Finish now', onClick: () => finishOld(activeOld) },
       ],
     }));
   }
@@ -104,6 +123,14 @@ export async function render(container, params, ctx) {
         ? h('span', null, h('span', { class: 'num today-count' }, `${ticked}`), ` of ${sets.length} sets ticked`)
         : 'No sets ticked yet'),
       h('button', { class: 'btn btn-primary btn-large btn-block', onClick: () => ctx.navigate('log/' + activeToday.id) }, 'Resume'));
+  } else if (todays && finished.some((x) => x.date === today && x.workoutId === todays.id)) {
+    // Already done today: don't invite a duplicate with a big Start button.
+    const doneToday = finished.find((x) => x.date === today && x.workoutId === todays.id);
+    mainCard = h('section', { class: 'card today-workout today-done' },
+      h('p', { class: 'today-eyebrow' }, 'Done today'),
+      h('h2', { class: 'today-title' }, `\u2713 ${todays.name}`),
+      h('p', { class: 'today-sub' }, 'Nice work. See how it went, or start it again from the list below.'),
+      h('button', { class: 'btn btn-secondary btn-large btn-block', onClick: () => ctx.navigate('history/' + doneToday.id) }, 'View workout'));
   } else if (todays) {
     mainCard = h('section', { class: 'card today-workout' },
       h('p', { class: 'today-eyebrow' }, "Today's workout"),

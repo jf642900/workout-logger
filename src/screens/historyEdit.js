@@ -1,5 +1,5 @@
 // historyEdit.js — bottom sheet to edit or delete one set of a finished session (WP2).
-import { h, openSheet, toast } from '../ui.js';
+import { h, openSheet, toast, confirmSheet } from '../ui.js';
 import { putSet, deleteSet } from '../db.js';
 
 /**
@@ -53,6 +53,8 @@ export function openSetEditor(set, exercise, settings, onChanged) {
     close(); toast('Set saved'); onChanged();
   };
   const remove = async () => {
+    const ok = await confirmSheet("Delete this set? This can't be undone.", { confirmLabel: 'Delete', danger: true });
+    if (!ok) return;
     await deleteSet(set.id);
     close(); toast('Set deleted'); onChanged();
   };

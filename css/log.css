@@ -52,7 +52,7 @@
 .ex-line__day { color: var(--warn); font-weight: 600; }
 .ex-hint .ex-line__label, .ex-hint .ex-line__text { color: var(--accent); }
 .ex-hint .ex-line__text { font-weight: 600; }
-.ex-hint__apply { min-height: 30px; margin: -6px -8px -6px 0; align-self: center; }
+.ex-hint__apply { min-height: var(--tap); margin: -12px -8px -12px 0; align-self: center; }
 
 /* exercise-level load */
 .ex-load {

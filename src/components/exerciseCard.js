@@ -94,14 +94,20 @@ export function ExerciseCard(opts) {
 
   function DoneOnlyRow() {
     const set = sets[0];
-    return h('button', { class: ['ex-doneonly', set?.done && 'is-done'], type: 'button', onClick: () => set && toggle(set), 'aria-pressed': set?.done ? 'true' : 'false' },
+    const tap = () => {
+      if (set) return toggle(set);
+      const row = makeSet({ setIndex: 1 }); // item added to the program after this workout started
+      sets.push(row);
+      toggle(row);
+    };
+    return h('button', { class: ['ex-doneonly', set?.done && 'is-done'], type: 'button', onClick: tap, 'aria-pressed': set?.done ? 'true' : 'false' },
       h('span', { class: 'ex-doneonly__tick' }, TickIcon()), h('span', null, set?.done ? 'Done' : 'Mark done'));
   }
 
   function Actions() {
     return h('div', { class: 'ex-actions' },
       h('button', { class: 'ex-action', type: 'button', onClick: addSet }, '+ Add set'),
-      sets.length > 1 ? h('button', { class: 'ex-action', type: 'button', onClick: removeSet }, '− Remove set') : null,
+      sets.length > 1 && sets.some((s) => !s.done) ? h('button', { class: 'ex-action', type: 'button', onClick: removeSet }, '− Remove set') : null,
       h('span', { class: 'ex-actions__gap' }),
       h('button', { class: 'ex-action ex-action--quiet', type: 'button', onClick: () => setSkipped(true) }, 'Skip'));
   }
@@ -157,8 +163,10 @@ export function ExerciseCard(opts) {
     render();
   }
   function removeSet() {
-    const row = sets.pop();
-    if (!row) return;
+    // Only ever remove an unticked set: a ticked set is logged work (untick it first to remove it).
+    const idx = sets.findLastIndex((s) => !s.done);
+    if (idx < 0 || sets.length <= 1) return;
+    const [row] = sets.splice(idx, 1);
     deleteSet(row.id).catch(fail);
     onChange();
     render();
