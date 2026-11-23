@@ -3,3 +3,4 @@ history-import.json
 .DS_Store
 node_modules/
 /tmp/
+__pycache__/

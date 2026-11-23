@@ -1,1 +1,31 @@
-/* program screen styles — owned by its work package. Shared tokens and components live in app.css. */
+/* program screen styles — prefix pgm-. Shared tokens and components live in app.css. */
+.pgm-badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 4px; }
+.pgm-badges .list-row__sub { margin-right: 2px; }
+.pgm-archived { opacity: 0.65; }
+.pgm-add { margin: var(--space-3) 0; }
+.pgm-name { font-weight: 650; }
+.pgm-item { padding: var(--space-3) var(--space-4); }
+.pgm-item__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.pgm-item__name { font-weight: 650; font-size: 17px; min-width: 0; }
+.pgm-item__target { color: var(--text-2); white-space: nowrap; font-size: 15px; }
+.pgm-actions { display: grid; grid-template-columns: 44px 44px 1fr 1fr 1.3fr; gap: var(--space-2); margin-top: var(--space-3); }
+.pgm-act { padding: 0; min-width: 0; font-size: 18px; }
+.pgm-act--text { font-size: 14px; }
+.pgm-act--danger { color: var(--danger); }
+.pgm-choice { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.pgm-choice .chip { min-height: var(--tap); padding: 0 var(--space-4); }
+.pgm-form .pgm-choice { margin-bottom: var(--space-3); }
+.pgm-form .field + .pgm-choice { margin-top: calc(-1 * var(--space-1)); }
+.pgm-hint { font-size: 13px; }
+.pgm-toggle { display: flex; align-items: center; gap: var(--space-3); min-height: var(--tap); margin-bottom: var(--space-2); }
+.pgm-check { width: 24px; height: 24px; flex: none; accent-color: var(--accent); }
+.pgm-error { color: var(--danger); font-weight: 600; margin: 0 0 var(--space-3); }
+.pgm-sheet__title { font-size: 20px; margin: 0 0 var(--space-3); }
+.pgm-row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+.pgm-row3 .input { width: 100%; }
+.pgm-picker { margin: var(--space-3) 0; max-height: 45vh; overflow: auto; }
+.pgm-picker__search { margin-top: var(--space-3); }
+.pgm-picker__search .input { width: 100%; }
+.pgm-sheet .btn-block { margin-top: var(--space-2); }
+.pgm-sheet .sheet__actions { margin-top: var(--space-3); }
+.pgm-form [hidden], .pgm-sheet [hidden] { display: none !important; }
