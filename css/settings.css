@@ -1,0 +1,43 @@
+/* settings screen styles (prefix settings-). Shared tokens and components live in app.css. */
+.settings .section-title:first-child { margin-top: var(--space-4); }
+.settings-file { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.settings-subtitle { font-size: 15px; font-weight: 650; margin: var(--space-3) 0 var(--space-2); }
+.settings-action { cursor: pointer; }
+.settings-action.is-danger .list-row__title { color: var(--danger); }
+.settings-row { min-height: 56px; }
+
+.settings-stepper { display: flex; align-items: center; gap: var(--space-1); }
+.settings-stepper__btn {
+  width: var(--tap); height: var(--tap); border-radius: var(--radius-sm); border: 1px solid var(--border);
+  background: var(--surface-2); font-size: 22px; line-height: 1; touch-action: manipulation;
+}
+.settings-stepper__btn:disabled { opacity: 0.35; }
+.settings-stepper__value { min-width: 64px; text-align: center; font-weight: 700; font-size: 17px; }
+
+.settings-bands { padding: var(--space-2) var(--space-3); }
+.settings-band { padding: var(--space-1) 0; border-bottom: 1px solid var(--border); }
+.settings-band:last-child { border-bottom: 0; }
+.settings-band__line { display: flex; align-items: center; gap: var(--space-1); }
+.settings-band__name { flex: 1; min-width: 0; }
+.settings-band__swatch {
+  width: var(--tap); height: var(--tap); flex: none; border-radius: 50%; border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--border); touch-action: manipulation;
+}
+.settings-band .btn-icon { flex: none; min-width: 40px; }
+.settings-band .btn-icon:disabled { opacity: 0.3; }
+.settings-band__remove { color: var(--danger); }
+.settings-band__note { font-size: 13px; padding: 0 var(--space-2) var(--space-2) 52px; }
+.settings-palette { display: flex; flex-wrap: wrap; gap: var(--space-1); padding: var(--space-2) 0 var(--space-2) 4px; }
+.settings-palette__dot { width: var(--tap); height: var(--tap); border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--border); }
+.settings-palette__dot.is-selected { box-shadow: 0 0 0 3px var(--accent); }
+.settings-add { margin-bottom: var(--space-3); }
+
+.settings-date { min-width: 150px; text-align: right; }
+.settings-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.settings-chip { min-width: var(--tap); min-height: var(--tap); justify-content: center; }
+
+.settings-errors { border-color: var(--danger); }
+.settings-errors ul, .settings-flagged { margin: var(--space-2) 0 0; padding-left: var(--space-4); font-size: 14px; }
+.settings-flagged li { margin-bottom: var(--space-2); }
+.settings-preview__actions { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+.settings-preview__actions .btn { flex: 1; }

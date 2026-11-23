@@ -1,0 +1,57 @@
+/* progress.css — Progress screen and charts (WP3). Prefixes prog- and chart-. */
+
+/* weekly table */
+.prog-table-wrap { overflow-x: auto; padding: var(--space-2) var(--space-1); }
+.prog-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.prog-table th, .prog-table td { padding: 7px 2px; text-align: right; white-space: nowrap; }
+.prog-table th:first-child { text-align: left; padding-left: var(--space-2); }
+.prog-table thead th { color: var(--text-2); font-size: 11px; font-weight: 600; }
+.prog-table__group th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.prog-table tbody tr { border-top: 1px solid var(--border); }
+.prog-table tbody th { font-weight: 700; }
+.prog-table tr.is-empty td { color: var(--text-2); opacity: 0.6; }
+.prog-dl { margin-left: 3px; font-size: 9px; font-weight: 800; color: var(--warn); vertical-align: super; }
+
+/* exercise list */
+.prog-ex.is-empty .list-row__title, .prog-ex.is-empty .prog-ex__sub { color: var(--text-2); opacity: 0.65; }
+.prog-ex__sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prog-ex__latest { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.prog-ex__main { font-weight: 700; font-size: 16px; }
+.prog-pb { font-weight: 700; font-size: 17px; }
+
+/* detail */
+.prog-range { display: flex; gap: var(--space-1); padding: 3px; margin-bottom: var(--space-3); background: var(--surface-2); border-radius: var(--radius-sm); }
+.prog-range__btn { flex: 1; min-height: var(--tap); border: 0; border-radius: 8px; background: none; color: var(--text-2); font-weight: 600; font-size: 14px; }
+.prog-range__btn.is-selected { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.25); }
+.prog-chart-card { padding: var(--space-3) var(--space-2) var(--space-2); }
+
+/* charts */
+.chart { margin: 0; }
+.chart__title { font-size: 13px; font-weight: 700; color: var(--text-2); padding: 0 var(--space-2) var(--space-1); }
+.chart__plot { position: relative; }
+.chart__svg { display: block; width: 100%; height: auto; overflow: visible; color: var(--text); -webkit-user-select: none; user-select: none; }
+.chart__grid { stroke: var(--border); stroke-width: 1; }
+.chart__tick { fill: var(--text-2); font-size: 11px; font-family: var(--font-num); }
+.chart__val { fill: var(--text-2); font-size: 10px; font-family: var(--font-num); }
+.chart__line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart__line--step { stroke: var(--text-2); stroke-width: 1.5; opacity: 0.6; }
+.chart__dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+.chart__bar { fill: var(--accent); }
+.chart__hit { fill: transparent; cursor: pointer; }
+.chart__pt { outline: none; -webkit-tap-highlight-color: transparent; }
+.chart__pt.is-active .chart__dot { stroke: var(--text); }
+.chart__pt.is-active .chart__bar { fill: color-mix(in srgb, var(--accent) 70%, var(--text)); }
+.chart__tip {
+  position: absolute; z-index: 5; min-width: 130px; pointer-events: none; padding: 8px 10px; font-size: 13px;
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35); transform: translate(-50%, calc(-100% - 10px));
+}
+.chart__tip[hidden] { display: none; }
+.chart__tip[data-align="left"] { transform: translate(-12%, calc(-100% - 10px)); }
+.chart__tip[data-align="right"] { transform: translate(-88%, calc(-100% - 10px)); }
+.chart__tip-title { font-weight: 700; margin-bottom: 2px; }
+.chart__tip-row { display: flex; justify-content: space-between; gap: var(--space-3); }
+.chart-spark { display: block; }
+.chart-spark__line { fill: none; stroke: var(--accent); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; }
+.chart-spark__dot { fill: var(--accent); }
+.prog-note { padding: var(--space-3); margin: 0; font-size: 14px; }

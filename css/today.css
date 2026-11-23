@@ -1,0 +1,23 @@
+/* today screen styles. Prefix: today- */
+.today-eyebrow { margin: 0 0 2px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
+.today-title { margin: 0 0 var(--space-3); font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; }
+.today-sub { margin: 0 0 var(--space-4); color: var(--text-2); }
+.today-count { color: var(--done); font-size: 22px; font-weight: 750; }
+.today-resume { border-color: var(--accent); background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--surface); }
+.today-exlist { margin-bottom: var(--space-4); }
+.today-exlist .divider-label:first-child { margin-top: var(--space-2); }
+.today-ex { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); padding: 7px 0; }
+.today-ex__name { font-weight: 600; min-width: 0; }
+.today-ex__target { font-size: 14px; text-align: right; flex-shrink: 0; max-width: 45%; }
+.today-chooser .list-row { cursor: pointer; }
+.today-chooser__go { pointer-events: none; }
+.today-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-2); }
+.today-day { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: var(--space-2) 0; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); }
+.today-day__name { font-size: 12px; font-weight: 700; color: var(--text-2); }
+.today-day__mark { font-size: 18px; font-weight: 700; }
+.today-day.is-future .today-day__mark { color: var(--text-2); font-weight: 500; }
+.today-day.is-today { border-color: var(--accent); }
+.today-day.is-today .today-day__name { color: var(--accent); }
+.today-day.is-done { background: var(--done-soft); border-color: transparent; }
+.today-day.is-done .today-day__mark { color: var(--done); }
+.today-chooser .list-row__main { display: flex; flex-direction: column; }

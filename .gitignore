@@ -1,0 +1,6 @@
+history-import.json
+*.numbers
+.DS_Store
+node_modules/
+/tmp/
+__pycache__/
